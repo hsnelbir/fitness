@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>FITNESS</title>
+  <style>
+    body {
+      font-family: "Comic Sans MS", sans-serif;
+      background: linear-gradient(to right, #f2c1b6, #f8e3a3, #a8df9e, #a3d7f8);
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2 {
+      color: #ff3399;
+      text-shadow: 2px 2px #fff;
+      text-align: center;
+    }
+    nav {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    nav button {
+      font-size: 16px;
+      background-color: #ff3399;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    section {
+      display: none; /* Hide sections by default */
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 10px;
+      padding: 10px;
+      margin: 0 auto;
+      width: 90%;
+      max-width: 800px;
+    }
+    .active {
+      display: block;
+    }
+    /* Photos Section */
+    #photos .photos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    #photos .photos img {
+      width: 120px;
+      border: 2px solid #fff;
+      border-radius: 10px;
+    }
+    /* Matching Section */
+    .matching-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+    .drop-list, .word-list {
+      width: 45%;
+      min-height: 250px;
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      margin: 10px auto;
+      padding: 10px;
+    }
+    .drop-item, .drag-item {
+      margin: 5px 0;
+      padding: 6px;
+      border: 1px solid #999;
+      border-radius: 4px;
+      background: #f9f9f9;
+      text-align: center;
+      cursor: move;
+    }
+    .drag-item.dragging {
+      opacity: 0.5;
+      border: 2px dashed #999;
+    }
+    /* Fill-in Section */
+    .sentence-box {
+      margin: 10px auto;
+      width: 90%;
+      max-width: 600px;
+    }
+    .sentence {
+      margin: 10px 0;
+    }
+    .sentence img {
+      width: 80px;
+      vertical-align: middle;
+      border-radius: 8px;
+      border: 2px solid #fff;
+      margin-right: 10px;
+    }
+    .sentence input {
+      width: 150px;
+      padding: 4px;
+      margin-left: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .check-btn {
+      margin: 15px auto;
+      display: block;
+      font-size: 16px;
+      background-color: #ff3399;
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .answer {
+      color: #333;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>FITNESS</h1>
+
+  <!-- Navigation -->
+  <nav>
+    <button onclick="showSection('photos')">Fitness</button>
+    <button onclick="showSection('matching')">Activity 1</button>
+    <button onclick="showSection('fillin')">Activity 2</button>
+  </nav>
+
+  <!-- Photos Section -->
+  <section id="photos" class="active">
+    <h2>GUESS THE WORDS</h2>
+    <div class="photos">
+      <!-- Update the image paths or file names as needed -->
+      <img src="hiking.jpg" alt="Hiking" />
+      <img src="skiing.jpg" alt="Skiing" />
+      <img src="camping.jpg" alt="Camping" />
+      <img src="fishing.jpg" alt="Fishing" />
+      <img src="skating.jpg" alt="Skating" />
+      <img src="cycling.jpg" alt="Cycling" />
+      <img src="workout.jpg" alt="Work Out" />
+      <img src="diving.jpg" alt="Diving" />
+      <img src="climbing.jpg" alt="Climbing" />
+      <img src="outdoor_activities.jpg" alt="Outdoor Activities" />
+    </div>
+  </section>
+
+  <!-- Matching Section -->
+  <section id="matching">
+    <h2>MATCH THE WORDS</h2>
+    <div class="matching-wrapper">
+      
+      <!-- Turkish items (drop-list) -->
+      <div class="drop-list">
+        <!-- data-turkish holds the original text so we can reconstruct the label -->
+        <div class="drop-item" data-turkish="doğa yürüyüşü" draggable="false">doğa yürüyüşü</div>
+        <div class="drop-item" data-turkish="kayak yapma" draggable="false">kayak yapma</div>
+        <div class="drop-item" data-turkish="kamp yapma" draggable="false">kamp yapma</div>
+        <div class="drop-item" data-turkish="balık tutma" draggable="false">balık tutma</div>
+        <div class="drop-item" data-turkish="buz pateni" draggable="false">buz pateni</div>
+        <div class="drop-item" data-turkish="bisiklet sürme" draggable="false">bisiklet sürme</div>
+        <div class="drop-item" data-turkish="egzersiz yapmak" draggable="false">egzersiz yapmak</div>
+        <div class="drop-item" data-turkish="dalış" draggable="false">dalış</div>
+        <div class="drop-item" data-turkish="tırmanma" draggable="false">tırmanma</div>
+        <div class="drop-item" data-turkish="açık hava aktiviteleri" draggable="false">açık hava aktiviteleri</div>
+      </div>
+
+      <!-- English items (word-list) -->
+      <div class="word-list">
+        <div class="drag-item" draggable="true" data-word="hiking">hiking</div>
+        <div class="drag-item" draggable="true" data-word="skiing">skiing</div>
+        <div class="drag-item" draggable="true" data-word="camping">camping</div>
+        <div class="drag-item" draggable="true" data-word="fishing">fishing</div>
+        <div class="drag-item" draggable="true" data-word="skating">skating</div>
+        <div class="drag-item" draggable="true" data-word="cycling">cycling</div>
+        <div class="drag-item" draggable="true" data-word="work out">work out</div>
+        <div class="drag-item" draggable="true" data-word="diving">diving</div>
+        <div class="drag-item" draggable="true" data-word="climbing">climbing</div>
+        <div class="drag-item" draggable="true" data-word="outdoor activities">outdoor activities</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fill-in Section -->
+  <section id="fillin">
+    <h2>FILL-IN THE BLANKS ACCORDING TO THE PHOTOS</h2>
+    <div class="sentence-box">
+      <div class="sentence">
+        <img src="hiking.jpg" alt="Hiking" />
+        I go <input type="text" class="blank" data-answer="hiking" /> in the mountains.
+        <span class="answer">Answer: hiking</span>
+      </div>
+      <div class="sentence">
+        <img src="skiing.jpg" alt="Skiing" />
+        My friend tries <input type="text" class="blank" data-answer="skiing" /> every winter.
+        <span class="answer">Answer: skiing</span>
+      </div>
+      <div class="sentence">
+        <img src="camping.jpg" alt="Camping" />
+        We enjoy <input type="text" class="blank" data-answer="camping" /> in the forest.
+        <span class="answer">Answer: camping</span>
+      </div>
+      <div class="sentence">
+        <img src="fishing.jpg" alt="Fishing" />
+        Let's go <input type="text" class="blank" data-answer="fishing" /> by the river.
+        <span class="answer">Answer: fishing</span>
+      </div>
+      <div class="sentence">
+        <img src="skating.jpg" alt="Skating" />
+        <input type="text" class="blank" data-answer="skating" /> is fun on ice.
+        <span class="answer">Answer: skating</span>
+      </div>
+      <div class="sentence">
+        <img src="cycling.jpg" alt="Cycling" />
+        <input type="text" class="blank" data-answer="cycling" /> is fun with friends.
+        <span class="answer">Answer: cycling</span>
+      </div>
+      <div class="sentence">
+        <img src="workout.jpg" alt="Work Out" />
+        I <input type="text" class="blank" data-answer="work out" /> in the gym.
+        <span class="answer">Answer: work out</span>
+      </div>
+      <div class="sentence">
+        <img src="diving.jpg" alt="Diving" />
+        I want to try <input type="text" class="blank" data-answer="diving" /> in the ocean.
+        <span class="answer">Answer: diving</span>
+      </div>
+      <div class="sentence">
+        <img src="climbing.jpg" alt="Climbing" />
+        Have you tried <input type="text" class="blank" data-answer="climbing" /> a rock wall?
+        <span class="answer">Answer: climbing</span>
+      </div>
+      <div class="sentence">
+        <img src="outdoor_activities.jpg" alt="Outdoor Activities" />
+        We love <input type="text" class="blank" data-answer="outdoor activities" /> together.
+        <span class="answer">Answer: outdoor activities</span>
+      </div>
+    </div>
+    <button class="check-btn" onclick="checkFillBlanks()">x</button>
+  </section>
+
+  <script>
+    // Show/Hide Sections
+    function showSection(id) {
+      const sections = document.querySelectorAll('section');
+      sections.forEach(sec => {
+        sec.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+    }
+
+    // Initially show Photos
+    // (already class="active" in HTML)
+
+    // Drag & Drop for Matching
+    let draggedItem = null;
+    const dragItems = document.querySelectorAll('.drag-item');
+    const dropItems = document.querySelectorAll('.drop-item');
+
+    dragItems.forEach(item => {
+      item.addEventListener('dragstart', e => {
+        draggedItem = item;
+        e.dataTransfer.setData('text/plain', item.getAttribute('data-word'));
+        item.classList.add('dragging');
+      });
+      item.addEventListener('dragend', () => {
+        draggedItem = null;
+        item.classList.remove('dragging');
+      });
+    });
+
+    dropItems.forEach(drop => {
+      drop.addEventListener('dragover', e => {
+        e.preventDefault(); // Allows drop
+      });
+      drop.addEventListener('drop', e => {
+        e.preventDefault();
+        const englishWord = e.dataTransfer.getData('text/plain');
+        // Combine the original Turkish + English
+        const turkishWord = drop.getAttribute('data-turkish');
+        drop.textContent = `${turkishWord} - ${englishWord}`;
+      });
+    });
+
+    // Fill-in Check
+    function checkFillBlanks() {
+      const blanks = document.querySelectorAll('.blank');
+      blanks.forEach(blank => {
+        const userInput = blank.value.trim().toLowerCase();
+        const correctAnswer = blank.getAttribute('data-answer').toLowerCase();
+        if (userInput === correctAnswer) {
+          blank.style.backgroundColor = '#b2f2bb'; // green for correct
+        } else {
+          blank.style.backgroundColor = '#ffccd2'; // red for incorrect
+        }
+      });
+      // Reveal correct answers
+      const answers = document.querySelectorAll('.answer');
+      answers.forEach(answer => {
+        answer.style.display = 'inline-block';
+      });
+    }
+  </script>
+</body>
+</html>
