@@ -308,4 +308,99 @@
     }
   </script>
 </body>
+
+  <!-- Matching Section -->
+<section id="matching">
+  <h2>MATCH THE WORDS</h2>
+  <p style="text-align:center;">
+    Drag with mouse or tap an English word to select it, then tap the Turkish box to drop it.
+  </p>
+  <div class="matching-wrapper">
+    <!-- Turkish items (drop-list) -->
+    <div class="drop-list">
+      <div class="drop-item" data-turkish="doğa yürüyüşü" tabindex="0" draggable="false">doğa yürüyüşü</div>
+      <div class="drop-item" data-turkish="kayak yapma" tabindex="0" draggable="false">kayak yapma</div>
+      <div class="drop-item" data-turkish="kamp yapma" tabindex="0" draggable="false">kamp yapma</div>
+      <div class="drop-item" data-turkish="balık tutma" tabindex="0" draggable="false">balık tutma</div>
+      <div class="drop-item" data-turkish="buz pateni" tabindex="0" draggable="false">buz pateni</div>
+      <div class="drop-item" data-turkish="bisiklet sürme" tabindex="0" draggable="false">bisiklet sürme</div>
+      <div class="drop-item" data-turkish="egzersiz yapmak" tabindex="0" draggable="false">egzersiz yapmak</div>
+      <div class="drop-item" data-turkish="dalış" tabindex="0" draggable="false">dalış</div>
+      <div class="drop-item" data-turkish="tırmanma" tabindex="0" draggable="false">tırmanma</div>
+      <div class="drop-item" data-turkish="açık hava aktiviteleri" tabindex="0" draggable="false">açık hava aktiviteleri</div>
+    </div>
+
+    <!-- English items (word-list) -->
+    <div class="word-list">
+      <div class="drag-item" draggable="true" data-word="hiking" tabindex="0">hiking</div>
+      <div class="drag-item" draggable="true" data-word="skiing" tabindex="0">skiing</div>
+      <div class="drag-item" draggable="true" data-word="camping" tabindex="0">camping</div>
+      <div class="drag-item" draggable="true" data-word="fishing" tabindex="0">fishing</div>
+      <div class="drag-item" draggable="true" data-word="skating" tabindex="0">skating</div>
+      <div class="drag-item" draggable="true" data-word="cycling" tabindex="0">cycling</div>
+      <div class="drag-item" draggable="true" data-word="work out" tabindex="0">work out</div>
+      <div class="drag-item" draggable="true" data-word="diving" tabindex="0">diving</div>
+      <div class="drag-item" draggable="true" data-word="climbing" tabindex="0">climbing</div>
+      <div class="drag-item" draggable="true" data-word="outdoor activities" tabindex="0">outdoor activities</div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Desktop drag-and-drop (mouse)
+  let draggedItem = null;
+  const dragItems = document.querySelectorAll('.drag-item');
+  const dropItems = document.querySelectorAll('.drop-item');
+
+  dragItems.forEach(item => {
+    item.addEventListener('dragstart', e => {
+      draggedItem = item;
+      e.dataTransfer.setData('text/plain', item.getAttribute('data-word'));
+      item.classList.add('dragging');
+    });
+    item.addEventListener('dragend', () => {
+      draggedItem = null;
+      item.classList.remove('dragging');
+    });
+  });
+
+  dropItems.forEach(drop => {
+    drop.addEventListener('dragover', e => {
+      e.preventDefault();
+    });
+    drop.addEventListener('drop', e => {
+      e.preventDefault();
+      const englishWord = e.dataTransfer.getData('text/plain');
+      const turkishWord = drop.getAttribute('data-turkish');
+      drop.textContent = `${turkishWord} - ${englishWord}`;
+    });
+  });
+
+  // Mobile touch support
+  let selectedTouchWord = null;
+  // When user touches an English word, mark it as selected
+  dragItems.forEach(item => {
+    item.addEventListener('touchstart', e => {
+      selectedTouchWord = item.getAttribute('data-word');
+      item.style.border = "2px dashed blue";
+      e.preventDefault();
+    }, {passive: false});
+    item.addEventListener('touchend', e => {
+      item.style.border = "1px solid #999";
+      e.preventDefault();
+    }, {passive: false});
+  });
+  
+  // Allow dropping via tapping on a Turkish word.
+  dropItems.forEach(drop => {
+    drop.addEventListener('touchend', e => {
+      e.preventDefault();
+      if(selectedTouchWord) {
+        const turkishWord = drop.getAttribute('data-turkish');
+        drop.textContent = `${turkishWord} - ${selectedTouchWord}`;
+        selectedTouchWord = null;
+      }
+    }, {passive: false});
+  });
+</script>
 </html>
